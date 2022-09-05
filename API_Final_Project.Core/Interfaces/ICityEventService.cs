@@ -9,5 +9,11 @@ namespace API_Final_Project.Core.Interfaces
     public interface ICityEventService
     {
         List<CityEvent> ConsultarEventos();
+
+        bool CriarEvento(CityEvent cityEvent);
+
+        bool EditarEvento(long Id, CityEvent cityEvent);
+
+        bool ExcluirEvento(long Id);
     }
 }

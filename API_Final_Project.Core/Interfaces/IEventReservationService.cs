@@ -9,5 +9,11 @@ namespace API_Final_Project.Core.Interfaces
     public interface IEventReservationService
     {
         List<EventReservation> ConsultarReservas();
+
+        bool CriarReserva (EventReservation eventReservation);
+
+        bool EditarReserva(long Id, EventReservation eventReservation);
+
+        bool ExcluirReserva(long Id);
     }
 }

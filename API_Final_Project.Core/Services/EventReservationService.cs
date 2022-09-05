@@ -20,5 +20,20 @@ namespace API_Final_Project.Core.Service
         {
             return _eventReservationRepository.ConsultarReservas();
         }
+
+        public bool CriarReserva(EventReservation eventReservation)
+        {
+            return _eventReservationRepository.CriarReserva(eventReservation);
+        }
+
+        public bool EditarReserva(long Id, EventReservation eventReservation)
+        {
+            return _eventReservationRepository.EditarReserva(Id, eventReservation);
+        }
+
+        public bool ExcluirReserva(long Id)
+        {
+            return _eventReservationRepository.ExcluirReserva(Id);
+        }
     }
 }

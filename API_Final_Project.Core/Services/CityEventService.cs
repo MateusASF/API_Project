@@ -15,5 +15,19 @@ namespace API_Final_Project.Core.Service
         {
             return _cityEventRepository.ConsultarEventos();
         }
+        public bool CriarEvento(CityEvent cityEvent)
+        {
+            return _cityEventRepository.CriarEvento(cityEvent);
+        }
+
+        public bool EditarEvento(long Id, CityEvent cityEvent)
+        {
+            return _cityEventRepository.EditarEvento(Id, cityEvent);
+        }
+
+        public bool ExcluirEvento(long Id)
+        {
+            return _cityEventRepository.ExcluirEvento(Id);
+        }
     }
 }
