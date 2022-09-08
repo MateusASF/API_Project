@@ -4,10 +4,10 @@ namespace API_Final_Project
     {
         public long IdEvent { get; set; }
         public string? Title { get; set; }
-        public string? DescriptionEvet { get; set; }
+        public string? Description { get; set; }
         public DateTime DateHourEvent { get; set; }
-        public string? LocalEvent { get; set; }
-        public string? AdressEvent { get; set; }
+        public string? Local { get; set; }
+        public string? Address { get; set; }
         public decimal? Price { get; set; }
     }
 }

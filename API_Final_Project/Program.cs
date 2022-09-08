@@ -1,5 +1,6 @@
 using API_Final_Project.Core.Interfaces;
 using API_Final_Project.Core.Service;
+using API_Final_Project.Filters;
 using API_Final_Project.Infra.Data.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,10 +12,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//interfaces
 builder.Services.AddScoped<ICityEventRepository, CityEventRepository>();
 builder.Services.AddScoped<ICityEventService, CityEventService>();
 builder.Services.AddScoped<IEventReservationRepository, EventReservationRepository>();
 builder.Services.AddScoped<IEventReservationService, EventReservationService>();
+
+//filters
+builder.Services.AddScoped<LogActionFilter_RegistroExistente_City>();
+builder.Services.AddScoped<LogActionFilter_RegistroExistente_Reservation>();
+builder.Services.AddScoped<LogActionFilter_AdmUser_City>();
 
 var app = builder.Build();
 

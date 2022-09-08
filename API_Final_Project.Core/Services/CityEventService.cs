@@ -15,6 +15,12 @@ namespace API_Final_Project.Core.Service
         {
             return _cityEventRepository.ConsultarEventos();
         }
+
+        public CityEvent ConsultarEventosid(long idEvent)
+        {
+            return _cityEventRepository.ConsultarEventosid(idEvent);
+        }
+
         public bool CriarEvento(CityEvent cityEvent)
         {
             return _cityEventRepository.CriarEvento(cityEvent);

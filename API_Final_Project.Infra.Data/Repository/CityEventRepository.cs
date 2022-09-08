@@ -2,6 +2,7 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using API_Final_Project;
 
 
 namespace API_Final_Project.Infra.Data.Repository
@@ -22,10 +23,18 @@ namespace API_Final_Project.Infra.Data.Repository
             return conn.Query<CityEvent>(query).ToList();
         }
 
-        public bool CriarEvento (CityEvent cityEvent)
+        public CityEvent ConsultarEventosid(long idEvent)
         {
-            var query = "INSERT INTO CityEvent VALUES (@Title, @DescriptionEvet, @DateHourEvent, @LocalEvent, @AdressEvent, @Price)";
-            DynamicParameters parameters = new(new { cityEvent.Title, cityEvent.DescriptionEvet, cityEvent.DateHourEvent, cityEvent.LocalEvent, cityEvent.AdressEvent, cityEvent.Price });
+            var query = "SELECT * FROM CityEvent WHERE idEvent = @idEvent";
+            DynamicParameters parameters = new(new { idEvent });
+            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            return conn.QueryFirstOrDefault<CityEvent>(query, parameters);
+        }
+
+        public bool CriarEvento(CityEvent cityEvent)
+        {
+            var query = "INSERT INTO CityEvent VALUES (@Title, @Description, @DateHourEvent, @Local, @Adress, @Price)";
+            DynamicParameters parameters = new(new { cityEvent.Title, cityEvent.Description, cityEvent.DateHourEvent, cityEvent.Local, cityEvent.Address, cityEvent.Price });
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaulConnection"));
             return conn.Execute(query, parameters) == 1;
         }
@@ -33,10 +42,10 @@ namespace API_Final_Project.Infra.Data.Repository
         public bool EditarEvento(long Id, CityEvent cityEvent)
         {
             var query = @"UPDATE CityEvent SET Title = @Title,
-                          DescriptionEvet = @DescriptionEvet,
+                          Description = @Description,
                           DateHourEvent = @DateHourEvent,
-                          LocalEvent = @LocalEvent,
-                          AdressEvent = @AdressEvent,
+                          Local = @Local,
+                          Address = @Address,
                           Price = @Price
                           WHERE cityEvent.IdEvent = @IdEvent";
             cityEvent.IdEvent = Id;
@@ -52,5 +61,6 @@ namespace API_Final_Project.Infra.Data.Repository
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             return conn.Execute(query, parameters) == 1;
         }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using API_Final_Project.Core.Interfaces;
+using API_Final_Project.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_Final_Project.Controllers
@@ -39,11 +40,13 @@ namespace API_Final_Project.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ServiceFilter(typeof(LogActionFilter_RegistroExistente_Reservation))]
         public IActionResult EditarReserva(long id, EventReservation eventReservation)
         {
             if (!_eventReservationService.EditarReserva(id, eventReservation))
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
             return NoContent();
         }
@@ -52,11 +55,13 @@ namespace API_Final_Project.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ServiceFilter(typeof(LogActionFilter_RegistroExistente_Reservation))]
         public ActionResult<List<CityEvent>> ExcluirReserva(long Id)
         {
             if (!_eventReservationService.ExcluirReserva(Id))
             {
-                return NotFound();
+                new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
             return NoContent();
         }

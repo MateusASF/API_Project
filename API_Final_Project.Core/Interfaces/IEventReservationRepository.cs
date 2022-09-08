@@ -10,6 +10,8 @@ namespace API_Final_Project.Core.Interfaces
     {
         List<EventReservation> ConsultarReservas();
 
+        EventReservation ConsultarReservasId(long idReservation);
+
         bool CriarReserva(EventReservation eventReservation);
 
         bool EditarReserva(long Id, EventReservation eventReservation);

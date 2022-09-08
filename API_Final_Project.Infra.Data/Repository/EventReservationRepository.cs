@@ -21,6 +21,14 @@ namespace API_Final_Project.Infra.Data.Repository
             return conn.Query<EventReservation>(query).ToList();
         }
 
+        public EventReservation ConsultarReservasId(long idEvent)
+        {
+            var query = "SELECT * FROM EventReservation";
+            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            DynamicParameters parameters = new(new { idEvent });
+            return conn.QueryFirstOrDefault<EventReservation>(query, parameters);
+        }
+
         public bool CriarReserva(EventReservation eventReservation)
         {
             var query = "INSERT INTO EventReservation VALUES (@IdEvent, @PersonName, @Quantity)";

@@ -10,6 +10,8 @@ namespace API_Final_Project.Core.Interfaces
     {
         List<CityEvent> ConsultarEventos();
 
+        CityEvent ConsultarEventosid (long idEvent);
+
         bool CriarEvento(CityEvent cityEvent);
 
         bool EditarEvento(long Id, CityEvent cityEvent);

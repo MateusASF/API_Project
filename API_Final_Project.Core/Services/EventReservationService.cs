@@ -21,7 +21,12 @@ namespace API_Final_Project.Core.Service
             return _eventReservationRepository.ConsultarReservas();
         }
 
-        public bool CriarReserva(EventReservation eventReservation)
+        public EventReservation ConsultarReservasId(long idReservation)
+        {
+            return _eventReservationRepository.ConsultarReservasId(idReservation);
+        }
+
+    public bool CriarReserva(EventReservation eventReservation)
         {
             return _eventReservationRepository.CriarReserva(eventReservation);
         }
