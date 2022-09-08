@@ -19,7 +19,7 @@ builder.Services.AddScoped<IEventReservationRepository, EventReservationReposito
 builder.Services.AddScoped<IEventReservationService, EventReservationService>();
 
 //filters
-builder.Services.AddMvc(options => options.Filters.Add<GeneralExceptionFilter>()); // => Global Filter
+builder.Services.AddMvc(options => options.Filters.Add<GeneralExceptionFilter>()); // => Global Filter 
 
 builder.Services.AddScoped<LogActionFilter_RegistroExistente_City>();
 builder.Services.AddScoped<LogActionFilter_RegistroExistente_Reservation>();
