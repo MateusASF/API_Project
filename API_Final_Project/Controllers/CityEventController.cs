@@ -97,7 +97,7 @@ namespace API_Final_Project.Controllers
         {
             if (!_cityEventService.ExcluirEvento(Id))
             {
-                new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
             return NoContent();
         }
