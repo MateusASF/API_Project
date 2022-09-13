@@ -10,6 +10,8 @@ namespace API_Final_Project.Core.Interfaces
     {
         List<EventReservation> ConsultarReservas();
 
+        List<Object> ConsultarEventosPersonNameTitle(string personName, string title);
+
         EventReservation ConsultarReservasId(long idReservation);
 
         bool CriarReserva (EventReservation eventReservation);
@@ -17,5 +19,7 @@ namespace API_Final_Project.Core.Interfaces
         bool EditarReserva(long Id, EventReservation eventReservation);
 
         bool ExcluirReserva(long Id);
+
+        List<EventReservation> RemoveEvent(long Id);
     }
 }

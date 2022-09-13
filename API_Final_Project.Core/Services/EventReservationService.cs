@@ -21,6 +21,11 @@ namespace API_Final_Project.Core.Service
             return _eventReservationRepository.ConsultarReservas();
         }
 
+        public List<Object> ConsultarEventosPersonNameTitle(string personName, string title)
+        {
+            return _eventReservationRepository.ConsultarEventosPersonNameTitle(personName, title);
+        }
+
         public EventReservation ConsultarReservasId(long idReservation)
         {
             return _eventReservationRepository.ConsultarReservasId(idReservation);
@@ -39,6 +44,10 @@ namespace API_Final_Project.Core.Service
         public bool ExcluirReserva(long Id)
         {
             return _eventReservationRepository.ExcluirReserva(Id);
+        }
+        public List<EventReservation> RemoveEvent(long Id)
+        {
+            return _eventReservationRepository.RemoveEvent(Id);
         }
     }
 }

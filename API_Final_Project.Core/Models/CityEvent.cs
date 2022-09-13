@@ -9,5 +9,6 @@ namespace API_Final_Project
         public string? Local { get; set; }
         public string? Address { get; set; }
         public decimal? Price { get; set; }
+        public bool Status { get; set; }
     }
 }
