@@ -46,7 +46,7 @@ namespace API_Final_Project.Controllers
 
         [HttpGet("/cityEvent/preco/data/")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        //[Authorize(Roles = "admin, cliente")]
+        [Authorize(Roles = "admin, cliente")]
         public ActionResult<List<CityEvent>> ConsultarEventosPrecoData([FromQuery] decimal min, [FromQuery] decimal max, [FromQuery] DateTime Data)
         {
             return Ok(_cityEventService.ConsultarEventosPrecoData(min, max, Data));
