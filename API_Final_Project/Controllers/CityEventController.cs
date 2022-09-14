@@ -8,7 +8,7 @@ namespace API_Final_Project.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Consumes("application/json")] 
+    [Consumes("application/json")]
     [Produces("application/json")]
     public class CityEventController : ControllerBase
     {
@@ -33,15 +33,15 @@ namespace API_Final_Project.Controllers
         [Authorize(Roles = "admin, cliente")]
         public ActionResult<List<CityEvent>> ConsultarEventosNome(string nome)
         {
-            return Ok(_cityEventService.ConsultarEventosNome(nome)); 
-        }        
-        
-        [HttpGet("/cityEvent/local/data/")]
+            return Ok(_cityEventService.ConsultarEventosNome(nome));
+        }
+
+        [HttpGet("/cityEvent/{Local}/{Data}/")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Roles = "admin, cliente")]
-        public ActionResult <List<CityEvent>> ConsultarEventosLocalData([FromQuery] string Local, [FromQuery] DateTime Data)
+        public ActionResult<List<CityEvent>> ConsultarEventosLocalData(string Local, DateTime Data)
         {
-            return Ok(_cityEventService.ConsultarEventosLocalData(Local, Data)); 
+            return Ok(_cityEventService.ConsultarEventosLocalData(Local, Data));
         }
 
         [HttpGet("/cityEvent/preco/data/")]
@@ -70,8 +70,6 @@ namespace API_Final_Project.Controllers
 
         [HttpPut("/cityEvent/")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_City))]
         [Authorize(Roles = "admin")]
@@ -87,13 +85,11 @@ namespace API_Final_Project.Controllers
 
         [HttpDelete("/cityEvent/")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_City))]
         [ServiceFilter(typeof(RemoveEvent))]
         [Authorize(Roles = "admin")]
-        public ActionResult<List<CityEvent>> ExcluirEvento (long Id)
+        public ActionResult<List<CityEvent>> ExcluirEvento(long Id)
         {
             if (!_cityEventService.ExcluirEvento(Id))
             {

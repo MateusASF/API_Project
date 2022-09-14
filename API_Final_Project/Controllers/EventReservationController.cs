@@ -59,8 +59,6 @@ namespace API_Final_Project.Controllers
 
         [HttpPut("/eventReservation/")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_Reservation))]
         [Authorize(Roles = "admin")]
@@ -75,8 +73,6 @@ namespace API_Final_Project.Controllers
 
         [HttpDelete("/eventReservation/")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_Reservation))]
         [Authorize(Roles = "admin")]
