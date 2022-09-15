@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using APIEvents.Core.Models;
 
-namespace API_Final_Project.Core.Interfaces
+namespace APIEvents.Core.Interfaces
 {
     public interface IEventReservationRepository
     {
         List<EventReservation> ConsultarReservas();
 
-        List<Object> ConsultarEventosPersonNameTitle(string personName, string title);
+        List<object> ConsultarEventosPersonNameTitle(string personName, string title);
 
         EventReservation ConsultarReservasId(long idReservation);
 
         bool CriarReserva(EventReservation eventReservation);
 
-        bool EditarReserva(long Id, EventReservation eventReservation);
+        bool EditarReserva(long Id, long quantidade);
 
         bool ExcluirReserva(long Id);
 

@@ -1,9 +1,9 @@
-﻿using API_Final_Project.Core.Interfaces;
-using API_Final_Project.Filters;
-using Microsoft.AspNetCore.Authorization;
+﻿using APIEvents.Core.Interfaces;
+using APIEvents.Core.Models;
+using APIEvents.Filters;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API_Final_Project.Controllers
+namespace APIEvents.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -20,15 +20,15 @@ namespace API_Final_Project.Controllers
 
         [HttpGet("/eventReservation")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(Roles = "admin, cliente")]
+        //[Authorize(Roles = "admin, cliente")]
         public ActionResult<List<EventReservation>> ConsultarReservas()
         {
-            return Ok(_eventReservationService.ConsultarReservas()); 
+            return Ok(_eventReservationService.ConsultarReservas());
         }
 
         [HttpGet("/eventReservation/id/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(Roles = "admin, cliente")]
+        //[Authorize(Roles = "admin, cliente")]
         public ActionResult<List<EventReservation>> ConsultarReservasId(long id)
         {
             return Ok(_eventReservationService.ConsultarReservasId(id));
@@ -36,8 +36,8 @@ namespace API_Final_Project.Controllers
 
         [HttpGet("/eventReservation/search/{personName}/{title}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(Roles = "admin, cliente")]
-        public ActionResult<List<Object>> ConsultarEventosPersonNameTitle(string personName, string title)
+        //[Authorize(Roles = "admin, cliente")]
+        public ActionResult<List<object>> ConsultarEventosPersonNameTitle(string personName, string title)
         {
             return Ok(_eventReservationService.ConsultarEventosPersonNameTitle(personName, title));
         }
@@ -46,7 +46,7 @@ namespace API_Final_Project.Controllers
         [HttpPost("/eventReservation/")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Authorize(Roles = "admin, cliente")]
+        //[Authorize(Roles = "admin, cliente")]
         public ActionResult<EventReservation> CriarReserva(EventReservation eventReservation)
         {
             if (!_eventReservationService.CriarReserva(eventReservation))
@@ -57,25 +57,25 @@ namespace API_Final_Project.Controllers
         }
 
 
-        [HttpPut("/eventReservation/")]
+        [HttpPut("/eventReservation/{id}/{quantidade}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_Reservation))]
-        [Authorize(Roles = "admin")]
-        public IActionResult EditarReserva(long id, EventReservation eventReservation)
+        //[Authorize(Roles = "admin")]
+        public IActionResult EditarReserva(long id, long quantidade)
         {
-            if (!_eventReservationService.EditarReserva(id, eventReservation))
+            if (!_eventReservationService.EditarReserva(id, quantidade))
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
             return NoContent();
         }
 
-        [HttpDelete("/eventReservation/")]
+        [HttpDelete("/eventReservation/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_Reservation))]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public ActionResult<List<CityEvent>> ExcluirReserva(long Id)
         {
             if (!_eventReservationService.ExcluirReserva(Id))

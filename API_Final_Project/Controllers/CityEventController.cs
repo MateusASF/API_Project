@@ -1,10 +1,10 @@
-using API_Final_Project.Core.Interfaces;
-using API_Final_Project.Filters;
+using APIEvents.Core.Interfaces;
+using APIEvents.Core.Models;
 using APIEvents.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API_Final_Project.Controllers
+namespace APIEvents.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -19,6 +19,7 @@ namespace API_Final_Project.Controllers
             _cityEventService = cityEventService;
         }
 
+        #region GET'S
         [HttpGet("/cityEvent")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Roles = "admin")]
@@ -44,14 +45,14 @@ namespace API_Final_Project.Controllers
             return Ok(_cityEventService.ConsultarEventosLocalData(Local, Data));
         }
 
-        [HttpGet("/cityEvent/preco/data/")]
+        [HttpGet("/cityEvent/{min}/{max}/{Data}/")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Roles = "admin, cliente")]
         public ActionResult<List<CityEvent>> ConsultarEventosPrecoData([FromQuery] decimal min, [FromQuery] decimal max, [FromQuery] DateTime Data)
         {
             return Ok(_cityEventService.ConsultarEventosPrecoData(min, max, Data));
         }
-
+        #endregion
 
 
         [HttpPost("/cityEvent/")]
@@ -68,7 +69,7 @@ namespace API_Final_Project.Controllers
         }
 
 
-        [HttpPut("/cityEvent/")]
+        [HttpPut("/cityEvent/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_City))]
@@ -83,7 +84,7 @@ namespace API_Final_Project.Controllers
         }
 
 
-        [HttpDelete("/cityEvent/")]
+        [HttpDelete("/cityEvent/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_City))]

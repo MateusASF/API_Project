@@ -1,7 +1,8 @@
-namespace API_Final_Project
+namespace APIEvents.Core.Models
 {
     public class CityEvent
     {
+        //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public long IdEvent { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }

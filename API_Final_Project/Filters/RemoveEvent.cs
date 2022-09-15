@@ -1,4 +1,4 @@
-﻿using API_Final_Project.Core.Interfaces;
+﻿using APIEvents.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -22,7 +22,7 @@ namespace APIEvents.Filters
 
             if (_eventReservationService.RemoveEvent(idEvent).Count > 0)
             {
-                _cityEventService.Upper(idEvent);
+                _cityEventService.AlterStatus(idEvent);
                 var result = new ObjectResult(new { erro = "O evento possui reserva e foi inativado" });
                 result.StatusCode = 204;
                 context.Result = result;

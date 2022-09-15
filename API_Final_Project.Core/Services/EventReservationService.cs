@@ -1,11 +1,7 @@
-﻿using API_Final_Project.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using APIEvents.Core.Interfaces;
+using APIEvents.Core.Models;
 
-namespace API_Final_Project.Core.Service
+namespace APIEvents.Core.Services
 {
     public class EventReservationService : IEventReservationService
     {
@@ -21,7 +17,7 @@ namespace API_Final_Project.Core.Service
             return _eventReservationRepository.ConsultarReservas();
         }
 
-        public List<Object> ConsultarEventosPersonNameTitle(string personName, string title)
+        public List<object> ConsultarEventosPersonNameTitle(string personName, string title)
         {
             return _eventReservationRepository.ConsultarEventosPersonNameTitle(personName, title);
         }
@@ -33,86 +29,17 @@ namespace API_Final_Project.Core.Service
 
         public bool CriarReserva(EventReservation eventReservation)
         {
-            bool crea;
-            try
-            {
-                crea = _eventReservationRepository.CriarReserva(eventReservation);
-            }
-            catch (NullReferenceException ex)
-            {
-                var mensagem = ex.Message;
-                var caminho = ex.StackTrace;
-                var teste = ex.TargetSite;
-                Console.WriteLine($"Valores nulos, mensagem {mensagem}, stack trace {caminho}, {teste}");
-                crea = false;
-                return crea;
-            }
-            catch (Exception ex)
-            {
-                var tipoExcecao = ex.GetType().Name;
-                var mensagem = ex.Message;
-                var caminho = ex.StackTrace;
-                Console.WriteLine($"Tipo da exceção {tipoExcecao}, mensagem {mensagem}, stack trace {caminho}");
-                crea = false;
-                return crea;
-            }
-            return crea;
+            return _eventReservationRepository.CriarReserva(eventReservation);
         }
 
-        public bool EditarReserva(long Id, EventReservation eventReservation)
+        public bool EditarReserva(long Id, long quantidade)
         {
-            bool edit;
-            try
-            {
-                edit = _eventReservationRepository.EditarReserva(Id, eventReservation);
-            }
-            catch (NullReferenceException ex)
-            {
-                var mensagem = ex.Message;
-                var caminho = ex.StackTrace;
-                var teste = ex.TargetSite;
-                Console.WriteLine($"Valores nulos, mensagem {mensagem}, stack trace {caminho}, {teste}");
-                edit = false;
-                return edit;
-            }
-            catch (Exception ex)
-            {
-                var tipoExcecao = ex.GetType().Name;
-                var mensagem = ex.Message;
-                var caminho = ex.StackTrace;
-                Console.WriteLine($"Tipo da exceção {tipoExcecao}, mensagem {mensagem}, stack trace {caminho}");
-                edit = false;
-                return edit;
-            }
-            return edit;
+            return _eventReservationRepository.EditarReserva(Id, quantidade);
         }
 
         public bool ExcluirReserva(long Id)
         {
-            bool excl;
-            try
-            {
-                excl = _eventReservationRepository.ExcluirReserva(Id);
-            }
-            catch (NullReferenceException ex)
-            {
-                var mensagem = ex.Message;
-                var caminho = ex.StackTrace;
-                var teste = ex.TargetSite;
-                Console.WriteLine($"Valores nulos, mensagem {mensagem}, stack trace {caminho}, {teste}");
-                excl = false;
-                return excl;
-            }
-            catch (Exception ex)
-            {
-                var tipoExcecao = ex.GetType().Name;
-                var mensagem = ex.Message;
-                var caminho = ex.StackTrace;
-                Console.WriteLine($"Tipo da exceção {tipoExcecao}, mensagem {mensagem}, stack trace {caminho}");
-                excl = false;
-                return excl;
-            }
-            return excl;
+            return _eventReservationRepository.ExcluirReserva(Id);
         }
 
         public List<EventReservation> RemoveEvent(long Id)

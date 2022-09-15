@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Data.SqlClient;
 
-namespace API_Final_Project.Filters
+namespace APIEvents.Filters
 {
     public class GeneralExceptionFilter : ExceptionFilterAttribute
     {
@@ -25,6 +25,7 @@ namespace API_Final_Project.Filters
                     problem.Title = "Erro inesperado ao se comunicar com o banco de dados";
                     problem.Detail = "Falha não reconhecida ao se conectar com o Banco de Dados";
                     problem.Type = context.Exception.GetType().Name;
+                    problem.Status = 503;
                     context.Result = new ObjectResult(problem);
                     break;
                 case NullReferenceException:
@@ -32,6 +33,7 @@ namespace API_Final_Project.Filters
                     problem.Title = "Erro inesperado no sistema";
                     problem.Detail = "Falha não reconhecida no sistema";
                     problem.Type = context.Exception.GetType().Name;
+                    problem.Status = 417;
                     context.Result = new ObjectResult(problem);
                     break;
                 default:

@@ -1,8 +1,8 @@
-﻿using API_Final_Project.Core.Interfaces;
+﻿using APIEvents.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace API_Final_Project.Filters
+namespace APIEvents.Filters
 {
     public class LogActionFilter_RegistroExistente_Reservation : ActionFilterAttribute
     {

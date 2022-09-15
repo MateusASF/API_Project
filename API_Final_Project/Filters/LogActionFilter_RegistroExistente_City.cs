@@ -1,12 +1,12 @@
-﻿using API_Final_Project.Core.Interfaces;
+﻿using APIEvents.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 //LogActionFilter_PostExistente_
-namespace API_Final_Project.Filters
+namespace APIEvents.Filters
 {
     public class LogActionFilter_RegistroExistente_City : ActionFilterAttribute
     {
-        ICityEventService  _cityEventService;
+        ICityEventService _cityEventService;
 
         public LogActionFilter_RegistroExistente_City(ICityEventService clienteService)
         {

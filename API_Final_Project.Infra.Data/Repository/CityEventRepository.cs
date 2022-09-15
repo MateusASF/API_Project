@@ -1,11 +1,10 @@
-﻿using API_Final_Project.Core.Interfaces;
-using Dapper;
+﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using API_Final_Project;
+using APIEvents.Core.Interfaces;
+using APIEvents.Core.Models;
 
-
-namespace API_Final_Project.Infra.Data.Repository
+namespace APIEvents.Infra.Data.Repository
 {
     public class CityEventRepository : ICityEventRepository
     {
@@ -18,7 +17,7 @@ namespace API_Final_Project.Infra.Data.Repository
 
         public List<CityEvent> ConsultarEventos()
         {
-            var query = "SELECT * FROM CityEvent";
+            var query = "SELECT * FROM CityEvent WHERE status = 1";
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             return conn.Query<CityEvent>(query).ToList();
         }
@@ -34,7 +33,7 @@ namespace API_Final_Project.Infra.Data.Repository
         public List<CityEvent> ConsultarEventosLocalData(string local, DateTime dateHourEvent)
         {
             var query = "SELECT * FROM CityEvent WHERE CAST(dateHourEvent as DATE) = CAST(@dateHourEvent as DATE) and local = @local";
-            DynamicParameters parameters = new( new { local , dateHourEvent });
+            DynamicParameters parameters = new(new { local, dateHourEvent });
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             var camelo = conn.Query<CityEvent>(query, parameters).ToList();
             return camelo;
@@ -61,7 +60,7 @@ namespace API_Final_Project.Infra.Data.Repository
         public bool CriarEvento(CityEvent cityEvent)
         {
             var query = "INSERT INTO CityEvent VALUES (@Title, @Description, @DateHourEvent, @Local, @Address, @Price, @Status)";
-            DynamicParameters parameters = new(new { cityEvent.Title, cityEvent.Description, cityEvent.DateHourEvent, cityEvent.Local, cityEvent.Address, cityEvent.Price, cityEvent.Status});
+            DynamicParameters parameters = new(new { cityEvent.Title, cityEvent.Description, cityEvent.DateHourEvent, cityEvent.Local, cityEvent.Address, cityEvent.Price, cityEvent.Status });
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             return conn.Execute(query, parameters) == 1;
         }
@@ -91,11 +90,11 @@ namespace API_Final_Project.Infra.Data.Repository
         }
 
 
-        public bool Upper(long IdEvent)
+        public bool AlterStatus(long IdEvent)
         {
             var query = @"UPDATE CityEvent SET Status = 0
                           WHERE cityEvent.IdEvent = @IdEvent";
-            DynamicParameters parameters = new( new { IdEvent });
+            DynamicParameters parameters = new(new { IdEvent });
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             return conn.Execute(query, parameters) == 1;
         }

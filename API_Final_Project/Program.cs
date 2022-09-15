@@ -1,9 +1,9 @@
-using API_Final_Project.Core.Interfaces;
-using API_Final_Project.Core.Service;
-using API_Final_Project.Filters;
-using API_Final_Project.Infra.Data.Repository;
+using APIEvents.Core.Interfaces;
+using APIEvents.Core.Services;
 using APIEvents.Filters;
+using APIEvents.Infra.Data.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -29,8 +29,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
-builder.Services.AddSwaggerGen(setup =>
+builder.Services.AddSwaggerGen(options =>
 {
+    options.TagActionsBy(x => x.HttpMethod);
+
     // Include 'SecurityScheme' to use JWT Authentication
     var jwtSecurityScheme = new OpenApiSecurityScheme
     {
@@ -47,14 +49,11 @@ builder.Services.AddSwaggerGen(setup =>
             Type = ReferenceType.SecurityScheme
         }
     };
-
-    setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
-
-    setup.AddSecurityRequirement(new OpenApiSecurityRequirement
+    options.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         { jwtSecurityScheme, Array.Empty<string>() }
     });
-
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

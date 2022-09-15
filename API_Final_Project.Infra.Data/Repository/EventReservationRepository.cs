@@ -1,9 +1,10 @@
-﻿using API_Final_Project.Core.Interfaces;
+﻿using APIEvents.Core.Interfaces;
+using APIEvents.Core.Models;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
-namespace API_Final_Project.Infra.Data.Repository
+namespace APIEvents.Infra.Data.Repository
 {
     public class EventReservationRepository : IEventReservationRepository
     {
@@ -30,14 +31,14 @@ namespace API_Final_Project.Infra.Data.Repository
             return conn.QueryFirstOrDefault<EventReservation>(query, parameters);
         }
 
-        public List<Object> ConsultarEventosPersonNameTitle(string personName, string title)
+        public List<object> ConsultarEventosPersonNameTitle(string personName, string title)
         {
             var query = @$"SELECT * FROM EventReservation AS event
                            INNER JOIN CityEvent AS city ON
-                           event.PersonName = @personName AND city.Title like ('%' + @title '%') AND event.IdEvent = city.IdEvent " ;
+                           event.PersonName = @personName AND city.Title like ('%' + @title '%') AND event.IdEvent = city.IdEvent ";
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-            DynamicParameters parameters = new(new {title, personName});
-            return conn.Query<Object>(query, parameters).ToList();
+            DynamicParameters parameters = new(new { title, personName });
+            return conn.Query<object>(query, parameters).ToList();
         }
 
         public bool CriarReserva(EventReservation eventReservation)
@@ -48,14 +49,12 @@ namespace API_Final_Project.Infra.Data.Repository
             return conn.Execute(query, parameters) == 1;
         }
 
-        public bool EditarReserva(long Id, EventReservation eventReservation)
+        public bool EditarReserva(long IdReservation, long Quantity)
         {
-            var query = @"UPDATE EventReservation SET IdEvent = @IdEvent,
-                          PersonName = @PersonName,
+            var query = @"UPDATE EventReservation SET
                           Quantity = @Quantity
                           WHERE IdReservation = @IdReservation";
-            eventReservation.IdReservation= Id;
-            DynamicParameters parameters = new(eventReservation);
+            DynamicParameters parameters = new(new { IdReservation, Quantity });
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             return conn.Execute(query, parameters) == 1;
         }
