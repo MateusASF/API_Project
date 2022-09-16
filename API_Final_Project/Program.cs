@@ -31,7 +31,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 builder.Services.AddSwaggerGen(options =>
 {
-    options.TagActionsBy(x => x.HttpMethod);
+    //options.TagActionsBy(x => x.HttpMethod);
 
     // Include 'SecurityScheme' to use JWT Authentication
     var jwtSecurityScheme = new OpenApiSecurityScheme

@@ -4,20 +4,22 @@ namespace APIEvents.Core.Interfaces
 {
     public interface ICityEventService
     {
-        List<CityEvent> ConsultarEventos();
+        Task<List<CityEvent>> ConsultarEventosAsync();
 
-        List<CityEvent> ConsultarEventosNome(string nome);
+        Task<List<CityEvent>> ConsultarEventosNomeAsync(string nome);
 
-        List<CityEvent> ConsultarEventosLocalData(string Local, DateTime Data);
-        List<CityEvent> ConsultarEventosPrecoData(decimal min, decimal max, DateTime Data);
+        Task<List<CityEvent>> ConsultarEventosLocalDataAsync(string Local, DateTime Data);
 
-        CityEvent ConsultarEventosid(long idEvent);
+        Task<List<CityEvent>> ConsultarEventosPrecoDataAsync(decimal min, decimal max, DateTime Data);
 
-        bool CriarEvento(CityEvent cityEvent);
+        Task<CityEvent> ConsultarEventosidAsync(long idEvent);
 
-        bool EditarEvento(long Id, CityEvent cityEvent);
+        Task<bool> CriarEventoAsync(CityEvent cityEvent);
 
-        bool ExcluirEvento(long Id);
-        bool AlterStatus(long Id);
+        Task<bool> EditarEventoAsync(long Id, CityEvent cityEvent);
+
+        Task<bool> ExcluirEventoAsync(long Id);
+
+        Task<bool> AlterStatusAsync(long Id);
     }
 }

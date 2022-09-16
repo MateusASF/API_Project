@@ -1,8 +1,10 @@
+using System.Text.Json.Serialization;
+
 namespace APIEvents.Core.Models
 {
     public class CityEvent
     {
-        //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public long IdEvent { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }

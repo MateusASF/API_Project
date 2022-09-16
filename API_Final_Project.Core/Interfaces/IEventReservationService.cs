@@ -4,18 +4,18 @@ namespace APIEvents.Core.Interfaces
 {
     public interface IEventReservationService
     {
-        List<EventReservation> ConsultarReservas();
+        Task <List<EventReservation>> ConsultarReservasAsync();
 
-        List<object> ConsultarEventosPersonNameTitle(string personName, string title);
+        Task<List<object>> ConsultarEventosPersonNameTitleAsync(string personName, string title);
 
-        EventReservation ConsultarReservasId(long idReservation);
+        Task<EventReservation> ConsultarReservasIdAsync(long idReservation);
 
-        bool CriarReserva(EventReservation eventReservation);
+        Task<bool> CriarReservaAsync(EventReservation eventReservation);
 
-        bool EditarReserva(long Id, long quantidade);
+        Task<bool> EditarReservaAsync(long Id, long quantidade);
 
-        bool ExcluirReserva(long Id);
+        Task <bool> ExcluirReservaAsync(long Id);
 
-        List<EventReservation> RemoveEvent(long Id);
+        Task<List<EventReservation>> RemoveEventAsync(long Id);
     }
 }

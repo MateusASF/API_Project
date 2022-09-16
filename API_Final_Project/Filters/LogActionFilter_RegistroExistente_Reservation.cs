@@ -6,7 +6,7 @@ namespace APIEvents.Filters
 {
     public class LogActionFilter_RegistroExistente_Reservation : ActionFilterAttribute
     {
-        IEventReservationService _eventReservationService;
+        readonly IEventReservationService _eventReservationService;
 
         public LogActionFilter_RegistroExistente_Reservation(IEventReservationService eventReservationService)
         {
@@ -15,9 +15,10 @@ namespace APIEvents.Filters
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+
             long idReservation = (long)context.ActionArguments["id"];
 
-            if (_eventReservationService.ConsultarReservasId(idReservation) == null)
+            if (_eventReservationService.ConsultarReservasIdAsync(idReservation) == null)
             {
                 context.Result = new StatusCodeResult(StatusCodes.Status400BadRequest);
             }

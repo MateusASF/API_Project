@@ -6,7 +6,7 @@ namespace APIEvents.Filters
 {
     public class LogActionFilter_RegistroExistente_City : ActionFilterAttribute
     {
-        ICityEventService _cityEventService;
+        readonly ICityEventService _cityEventService;
 
         public LogActionFilter_RegistroExistente_City(ICityEventService clienteService)
         {
@@ -17,7 +17,7 @@ namespace APIEvents.Filters
         {
             long idEvent = (long)context.ActionArguments["id"];
 
-            if (_cityEventService.ConsultarEventosid(idEvent) == null)
+            if (_cityEventService.ConsultarEventosidAsync(idEvent) == null)
             {
                 context.Result = new StatusCodeResult(StatusCodes.Status400BadRequest);
             }

@@ -3,6 +3,7 @@ using APIEvents.Core.Models;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System.Runtime.InteropServices;
 
 namespace APIEvents.Infra.Data.Repository
 {
@@ -15,64 +16,63 @@ namespace APIEvents.Infra.Data.Repository
             _configuration = configuration;
         }
 
-        public List<EventReservation> ConsultarReservas()
+        public async Task<List<EventReservation>> ConsultarReservasAsync()
         {
             var query = "SELECT * FROM EventReservation";
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-            var lala = conn.Query<EventReservation>(query).ToList();
-            return lala;
+            return (await conn.QueryAsync<EventReservation>(query)).ToList();
         }
 
-        public EventReservation ConsultarReservasId(long IdReservation)
+        public async Task <EventReservation> ConsultarReservasIdAsync(long IdReservation)
         {
             var query = "SELECT * FROM EventReservation WHERE IdReservation = @IdReservation";
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             DynamicParameters parameters = new(new { IdReservation });
-            return conn.QueryFirstOrDefault<EventReservation>(query, parameters);
+            return await conn.QueryFirstOrDefaultAsync<EventReservation>(query, parameters);
         }
 
-        public List<object> ConsultarEventosPersonNameTitle(string personName, string title)
+        public async Task<List<object>> ConsultarEventosPersonNameTitleAsync(string personName, string title)
         {
             var query = @$"SELECT * FROM EventReservation AS event
                            INNER JOIN CityEvent AS city ON
-                           event.PersonName = @personName AND city.Title like ('%' + @title '%') AND event.IdEvent = city.IdEvent ";
+                           event.PersonName = @personName AND city.Title like ('%' + @title + '%') AND event.IdEvent = city.IdEvent ";
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             DynamicParameters parameters = new(new { title, personName });
-            return conn.Query<object>(query, parameters).ToList();
+            return (await conn.QueryAsync<object>(query, parameters)).ToList();
         }
 
-        public bool CriarReserva(EventReservation eventReservation)
+        public async Task<bool> CriarReservaAsync(EventReservation eventReservation)
         {
             var query = "INSERT INTO EventReservation VALUES (@IdEvent, @PersonName, @Quantity)";
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             DynamicParameters parameters = new(new { eventReservation.IdEvent, eventReservation.PersonName, eventReservation.Quantity });
-            return conn.Execute(query, parameters) == 1;
+            return await conn.ExecuteAsync(query, parameters) == 1;
         }
 
-        public bool EditarReserva(long IdReservation, long Quantity)
+        public async Task<bool> EditarReservaAsync(long IdReservation, long Quantity)
         {
             var query = @"UPDATE EventReservation SET
                           Quantity = @Quantity
                           WHERE IdReservation = @IdReservation";
             DynamicParameters parameters = new(new { IdReservation, Quantity });
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-            return conn.Execute(query, parameters) == 1;
+            return await conn.ExecuteAsync(query, parameters) == 1;
         }
 
-        public bool ExcluirReserva(long IdReservation)
+        public async Task<bool> ExcluirReservaAsync(long IdReservation)
         {
             var query = "DELETE FROM EventReservation WHERE IdReservation = @IdReservation";
             DynamicParameters parameters = new(new { IdReservation });
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-            return conn.Execute(query, parameters) == 1;
+            return await conn.ExecuteAsync(query, parameters) == 1;
         }
 
-        public List<EventReservation> RemoveEvent(long IdEvent)
+        public async Task <List<EventReservation>> RemoveEventAsync(long IdEvent)
         {
             var query = "select * from EventReservation where IdEvent = @IdEvent";
             DynamicParameters parameters = new(new { IdEvent });
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-            return conn.Query<EventReservation>(query, parameters).ToList();
+            return (await conn.QueryAsync<EventReservation>(query, parameters)).ToList();
         }
 
 

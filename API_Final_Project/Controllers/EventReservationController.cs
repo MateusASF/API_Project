@@ -1,6 +1,7 @@
 ﻿using APIEvents.Core.Interfaces;
 using APIEvents.Core.Models;
 using APIEvents.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIEvents.Controllers
@@ -18,42 +19,42 @@ namespace APIEvents.Controllers
             _eventReservationService = eventReservationService;
         }
 
-        [HttpGet("/eventReservation")]
+        [HttpGet("/eventReservation/general")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        //[Authorize(Roles = "admin, cliente")]
-        public ActionResult<List<EventReservation>> ConsultarReservas()
+        [Authorize(Roles = "admin, cliente")]
+        public async Task<ActionResult<List<EventReservation>>> ConsultarReservasAsync()
         {
-            return Ok(_eventReservationService.ConsultarReservas());
+            return Ok(await _eventReservationService.ConsultarReservasAsync());
         }
 
         [HttpGet("/eventReservation/id/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        //[Authorize(Roles = "admin, cliente")]
-        public ActionResult<List<EventReservation>> ConsultarReservasId(long id)
+        [Authorize(Roles = "admin, cliente")]
+        public async Task<ActionResult<List<EventReservation>>> ConsultarReservasIdAsync(long id)
         {
-            return Ok(_eventReservationService.ConsultarReservasId(id));
+            return Ok(await _eventReservationService.ConsultarReservasIdAsync(id));
         }
 
         [HttpGet("/eventReservation/search/{personName}/{title}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        //[Authorize(Roles = "admin, cliente")]
-        public ActionResult<List<object>> ConsultarEventosPersonNameTitle(string personName, string title)
+        [Authorize(Roles = "admin, cliente")]
+        public async Task <ActionResult<List<object>>> ConsultarEventosPersonNameTitleAsync(string personName, string title)
         {
-            return Ok(_eventReservationService.ConsultarEventosPersonNameTitle(personName, title));
+            return Ok(await _eventReservationService.ConsultarEventosPersonNameTitleAsync(personName, title));
         }
 
 
-        [HttpPost("/eventReservation/")]
+        [HttpPost("/eventReservation/insert")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[Authorize(Roles = "admin, cliente")]
-        public ActionResult<EventReservation> CriarReserva(EventReservation eventReservation)
+        [Authorize(Roles = "admin, cliente")]
+        public async Task<ActionResult<EventReservation>> CriarReservaAsync(EventReservation eventReservation)
         {
-            if (!_eventReservationService.CriarReserva(eventReservation))
+            if (!await _eventReservationService.CriarReservaAsync(eventReservation))
             {
                 return BadRequest();
             }
-            return CreatedAtAction(nameof(CriarReserva), eventReservation);
+            return CreatedAtAction(nameof(CriarReservaAsync), eventReservation);
         }
 
 
@@ -61,10 +62,10 @@ namespace APIEvents.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_Reservation))]
-        //[Authorize(Roles = "admin")]
-        public IActionResult EditarReserva(long id, long quantidade)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> EditarReservaAsync(long id, long quantidade)
         {
-            if (!_eventReservationService.EditarReserva(id, quantidade))
+            if (!await _eventReservationService.EditarReservaAsync(id, quantidade))
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
@@ -75,10 +76,10 @@ namespace APIEvents.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_Reservation))]
-        //[Authorize(Roles = "admin")]
-        public ActionResult<List<CityEvent>> ExcluirReserva(long Id)
+        [Authorize(Roles = "admin")]
+        public async Task <ActionResult<List<CityEvent>>> ExcluirReservaAsync(long Id)
         {
-            if (!_eventReservationService.ExcluirReserva(Id))
+            if (!await _eventReservationService.ExcluirReservaAsync(Id))
             {
                 new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }

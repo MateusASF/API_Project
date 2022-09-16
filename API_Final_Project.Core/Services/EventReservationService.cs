@@ -1,5 +1,9 @@
 ﻿using APIEvents.Core.Interfaces;
 using APIEvents.Core.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 
 namespace APIEvents.Core.Services
 {
@@ -12,39 +16,39 @@ namespace APIEvents.Core.Services
             _eventReservationRepository = eventReservationRepository;
         }
 
-        public List<EventReservation> ConsultarReservas()
+        public async Task<List<EventReservation>> ConsultarReservasAsync()
         {
-            return _eventReservationRepository.ConsultarReservas();
+            return await _eventReservationRepository.ConsultarReservasAsync();
         }
 
-        public List<object> ConsultarEventosPersonNameTitle(string personName, string title)
+        public async Task<List<object>> ConsultarEventosPersonNameTitleAsync(string personName, string title)
         {
-            return _eventReservationRepository.ConsultarEventosPersonNameTitle(personName, title);
+            return await _eventReservationRepository.ConsultarEventosPersonNameTitleAsync(personName, title);
         }
 
-        public EventReservation ConsultarReservasId(long idReservation)
+        public async Task<EventReservation> ConsultarReservasIdAsync(long idReservation)
         {
-            return _eventReservationRepository.ConsultarReservasId(idReservation);
+            return await _eventReservationRepository.ConsultarReservasIdAsync(idReservation);
         }
 
-        public bool CriarReserva(EventReservation eventReservation)
+        public async Task<bool> CriarReservaAsync(EventReservation eventReservation)
         {
-            return _eventReservationRepository.CriarReserva(eventReservation);
+            return await _eventReservationRepository.CriarReservaAsync(eventReservation);
         }
 
-        public bool EditarReserva(long Id, long quantidade)
+        public async Task<bool> EditarReservaAsync(long Id, long quantidade)
         {
-            return _eventReservationRepository.EditarReserva(Id, quantidade);
+            return await _eventReservationRepository.EditarReservaAsync(Id, quantidade);
         }
 
-        public bool ExcluirReserva(long Id)
+        public async Task<bool> ExcluirReservaAsync(long Id)
         {
-            return _eventReservationRepository.ExcluirReserva(Id);
+            return await _eventReservationRepository.ExcluirReservaAsync(Id);
         }
 
-        public List<EventReservation> RemoveEvent(long Id)
+        public async Task<List<EventReservation>> RemoveEventAsync(long Id)
         {
-            return _eventReservationRepository.RemoveEvent(Id);
+            return await _eventReservationRepository.RemoveEventAsync(Id);
         }
     }
 }

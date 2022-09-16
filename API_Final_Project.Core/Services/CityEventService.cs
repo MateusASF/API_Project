@@ -12,49 +12,49 @@ namespace APIEvents.Core.Services
             _cityEventRepository = cityEventRepository;
         }
 
-        public List<CityEvent> ConsultarEventos()
+        public async Task<List<CityEvent>> ConsultarEventosAsync()
         {
-            return _cityEventRepository.ConsultarEventos();
+            return await _cityEventRepository.ConsultarEventosAsync();
         }
 
-        public List<CityEvent> ConsultarEventosNome(string nome)
+        public async Task<List<CityEvent>> ConsultarEventosNomeAsync(string nome)
         {
-            return _cityEventRepository.ConsultarEventosNome(nome);
+            return await _cityEventRepository.ConsultarEventosNomeAsync(nome);
         }
-        public List<CityEvent> ConsultarEventosLocalData(string Local, DateTime Data)
+        public async Task<List<CityEvent>> ConsultarEventosLocalDataAsync(string Local, DateTime Data)
         {
-            return _cityEventRepository.ConsultarEventosLocalData(Local, Data);
-        }
-
-        public CityEvent ConsultarEventosid(long idEvent)
-        {
-            return _cityEventRepository.ConsultarEventosid(idEvent);
+            return await _cityEventRepository.ConsultarEventosLocalDataAsync(Local, Data);
         }
 
-        public bool CriarEvento(CityEvent cityEvent)
+        public async Task<CityEvent> ConsultarEventosidAsync(long idEvent)
         {
-            return _cityEventRepository.CriarEvento(cityEvent);
+            return await _cityEventRepository.ConsultarEventosidAsync(idEvent);
         }
 
-        public bool EditarEvento(long Id, CityEvent cityEvent)
+        public async Task<bool> CriarEventoAsync(CityEvent cityEvent)
         {
-            return _cityEventRepository.EditarEvento(Id, cityEvent);
+            return await _cityEventRepository.CriarEventoAsync(cityEvent);
         }
 
-        public List<CityEvent> ConsultarEventosPrecoData(decimal min, decimal max, DateTime Data)
+        public async Task<bool> EditarEventoAsync(long Id, CityEvent cityEvent)
         {
-            return _cityEventRepository.ConsultarEventosPrecoData(min, max, Data);
+            return await _cityEventRepository.EditarEventoAsync(Id, cityEvent);
         }
 
-        public bool ExcluirEvento(long Id)
+        public async Task<List<CityEvent>> ConsultarEventosPrecoDataAsync(decimal min, decimal max, DateTime Data)
         {
-            return _cityEventRepository.ExcluirEvento(Id); ;
+            return await _cityEventRepository.ConsultarEventosPrecoDataAsync(min, max, Data);
+        }
+
+        public async Task <bool> ExcluirEventoAsync(long Id)
+        {
+            return await _cityEventRepository.ExcluirEventoAsync(Id); ;
         }
 
 
-        public bool AlterStatus(long Id)
+        public async Task<bool> AlterStatusAsync(long Id)
         {
-            return _cityEventRepository.AlterStatus(Id);
+            return await _cityEventRepository.AlterStatusAsync(Id);
         }
     }
 }

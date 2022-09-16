@@ -20,52 +20,52 @@ namespace APIEvents.Controllers
         }
 
         #region GET'S
-        [HttpGet("/cityEvent")]
+        [HttpGet("/cityEvent/general")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Roles = "admin")]
-        public ActionResult<List<CityEvent>> ConsultarEventos()
+        public async Task <ActionResult<List<CityEvent>>> ConsultarEventosAsync()
         {
-            return Ok(_cityEventService.ConsultarEventos()); //=> métodos da interface
+            return Ok(await _cityEventService.ConsultarEventosAsync()); //=> métodos da interface
         }
 
 
         [HttpGet("/cityEvent/nameEvent/{nome}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Roles = "admin, cliente")]
-        public ActionResult<List<CityEvent>> ConsultarEventosNome(string nome)
+        public async Task <ActionResult<List<CityEvent>>> ConsultarEventosNomeAsync(string nome)
         {
-            return Ok(_cityEventService.ConsultarEventosNome(nome));
+            return Ok(await _cityEventService.ConsultarEventosNomeAsync(nome));
         }
 
         [HttpGet("/cityEvent/{Local}/{Data}/")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Roles = "admin, cliente")]
-        public ActionResult<List<CityEvent>> ConsultarEventosLocalData(string Local, DateTime Data)
+        public async Task <ActionResult<List<CityEvent>>> ConsultarEventosLocalDataAsync(string Local, DateTime Data)
         {
-            return Ok(_cityEventService.ConsultarEventosLocalData(Local, Data));
+            return Ok(await _cityEventService.ConsultarEventosLocalDataAsync(Local, Data));
         }
 
         [HttpGet("/cityEvent/{min}/{max}/{Data}/")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Roles = "admin, cliente")]
-        public ActionResult<List<CityEvent>> ConsultarEventosPrecoData([FromQuery] decimal min, [FromQuery] decimal max, [FromQuery] DateTime Data)
+        public async Task<ActionResult<List<CityEvent>>> ConsultarEventosPrecoDataAsync([FromQuery] decimal min, [FromQuery] decimal max, [FromQuery] DateTime Data)
         {
-            return Ok(_cityEventService.ConsultarEventosPrecoData(min, max, Data));
+            return Ok(await _cityEventService.ConsultarEventosPrecoDataAsync(min, max, Data));
         }
         #endregion
 
 
-        [HttpPost("/cityEvent/")]
+        [HttpPost("/cityEvent/insert")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Authorize(Roles = "admin")]
-        public ActionResult<CityEvent> CriarEvento(CityEvent cityEvent)
+        public async Task <ActionResult<CityEvent>> CriarEventoAsync(CityEvent cityEvent)
         {
-            if (!_cityEventService.CriarEvento(cityEvent))
+            if (!await _cityEventService.CriarEventoAsync(cityEvent))
             {
                 return BadRequest();
             }
-            return CreatedAtAction(nameof(CriarEvento), cityEvent);
+            return CreatedAtAction(nameof(CriarEventoAsync), cityEvent);
         }
 
 
@@ -74,9 +74,9 @@ namespace APIEvents.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_City))]
         [Authorize(Roles = "admin")]
-        public IActionResult EditarEvento(long id, CityEvent cityEvent)
+        public async Task <IActionResult> EditarEventoAsync(long id, CityEvent cityEvent)
         {
-            if (!_cityEventService.EditarEvento(id, cityEvent))
+            if (!await _cityEventService.EditarEventoAsync(id, cityEvent))
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
@@ -90,9 +90,9 @@ namespace APIEvents.Controllers
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_City))]
         [ServiceFilter(typeof(RemoveEvent))]
         [Authorize(Roles = "admin")]
-        public ActionResult<List<CityEvent>> ExcluirEvento(long Id)
+        public async Task <ActionResult<List<CityEvent>>> ExcluirEventoAsync(long Id)
         {
-            if (!_cityEventService.ExcluirEvento(Id))
+            if (!await _cityEventService.ExcluirEventoAsync(Id))
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
