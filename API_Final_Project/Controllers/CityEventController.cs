@@ -3,6 +3,7 @@ using APIEvents.Core.Models;
 using APIEvents.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace APIEvents.Controllers
 {
@@ -22,35 +23,55 @@ namespace APIEvents.Controllers
         #region GET'S
         [HttpGet("/cityEvent/general")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task <ActionResult<List<CityEvent>>> ConsultarEventosAsync()
         {
-            return Ok(await _cityEventService.ConsultarEventosAsync()); //=> métodos da interface
+            var list = await _cityEventService.ConsultarEventosAsync();
+            if (list.Count == 0)
+            {
+                return Ok("Sem Shows válidos agendados, tente cadastrar um show");
+            }
+            return Ok(list);
         }
 
 
         [HttpGet("/cityEvent/nameEvent/{nome}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(Roles = "admin, cliente")]
+        //[Authorize(Roles = "admin, cliente")]
         public async Task <ActionResult<List<CityEvent>>> ConsultarEventosNomeAsync(string nome)
         {
-            return Ok(await _cityEventService.ConsultarEventosNomeAsync(nome));
+            var list = await _cityEventService.ConsultarEventosNomeAsync(nome);
+            if (list.Count == 0)
+            {
+                return Ok("Sem Shows marcados com o nome dado, tente fazer uma nova consulta");
+            }
+            return Ok(list);
         }
 
         [HttpGet("/cityEvent/{Local}/{Data}/")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(Roles = "admin, cliente")]
+        //[Authorize(Roles = "admin, cliente")]
         public async Task <ActionResult<List<CityEvent>>> ConsultarEventosLocalDataAsync(string Local, DateTime Data)
         {
-            return Ok(await _cityEventService.ConsultarEventosLocalDataAsync(Local, Data));
+            var list = await _cityEventService.ConsultarEventosLocalDataAsync(Local, Data);
+            if (list.Count == 0)
+            {
+                return Ok("Sem Shows marcados com os parametros passados, tente fazer uma nova consulta");
+            }
+            return Ok(list);
         }
 
         [HttpGet("/cityEvent/{min}/{max}/{Data}/")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(Roles = "admin, cliente")]
+        //[Authorize(Roles = "admin, cliente")]
         public async Task<ActionResult<List<CityEvent>>> ConsultarEventosPrecoDataAsync([FromQuery] decimal min, [FromQuery] decimal max, [FromQuery] DateTime Data)
         {
-            return Ok(await _cityEventService.ConsultarEventosPrecoDataAsync(min, max, Data));
+            var list = await _cityEventService.ConsultarEventosPrecoDataAsync(min, max, Data);
+            if (list.Count == 0)
+            {
+                return Ok("Sem Shows marcados com os parametros passados, tente fazer uma nova consulta");
+            }
+            return Ok(list);
         }
         #endregion
 
@@ -58,14 +79,14 @@ namespace APIEvents.Controllers
         [HttpPost("/cityEvent/insert")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Authorize(Roles = "admin")]
-        public async Task <ActionResult<CityEvent>> CriarEventoAsync(CityEvent cityEvent)
+        //[Authorize(Roles = "admin")]
+        public async Task <ActionResult<CityEvent>> CriarEventoAsynck(CityEvent cityEvent)
         {
             if (!await _cityEventService.CriarEventoAsync(cityEvent))
             {
                 return BadRequest();
             }
-            return CreatedAtAction(nameof(CriarEventoAsync), cityEvent);
+            return CreatedAtAction(nameof(CriarEventoAsynck), cityEvent);
         }
 
 
@@ -73,7 +94,7 @@ namespace APIEvents.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_City))]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task <IActionResult> EditarEventoAsync(long id, CityEvent cityEvent)
         {
             if (!await _cityEventService.EditarEventoAsync(id, cityEvent))
@@ -84,12 +105,12 @@ namespace APIEvents.Controllers
         }
 
 
-        [HttpDelete("/cityEvent/{id}")]
+        [HttpDelete("/cityEvent/")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_City))]
         [ServiceFilter(typeof(RemoveEvent))]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task <ActionResult<List<CityEvent>>> ExcluirEventoAsync(long Id)
         {
             if (!await _cityEventService.ExcluirEventoAsync(Id))

@@ -30,7 +30,7 @@ namespace APIEvents.Infra.Data.Repository
             return (await conn.QueryAsync<CityEvent>(query, parameters)).ToList();
         }
 
-        public async Task <List<CityEvent>> ConsultarEventosLocalDataAsync(string local, DateTime dateHourEvent)
+        public async Task<List<CityEvent>> ConsultarEventosLocalDataAsync(string local, DateTime dateHourEvent)
         {
             var query = "SELECT * FROM CityEvent WHERE CAST(dateHourEvent as DATE) = CAST(@dateHourEvent as DATE) and local = @local";
             DynamicParameters parameters = new(new { local, dateHourEvent });
@@ -47,7 +47,7 @@ namespace APIEvents.Infra.Data.Repository
         }
 
 
-        public async Task <CityEvent> ConsultarEventosidAsync(long idEvent)
+        public async Task<CityEvent> ConsultarEventosidAsync(long idEvent)
         {
             var query = "SELECT * FROM CityEvent WHERE idEvent = @idEvent";
             DynamicParameters parameters = new(new { idEvent });
@@ -55,26 +55,35 @@ namespace APIEvents.Infra.Data.Repository
             return await conn.QueryFirstOrDefaultAsync<CityEvent>(query, parameters);
         }
 
-        public async Task <bool> CriarEventoAsync(CityEvent cityEvent)
+        public async Task<bool> CriarEventoAsync(CityEvent cityEvent)
         {
             var query = "INSERT INTO CityEvent VALUES (@Title, @Description, @DateHourEvent, @Local, @Address, @Price, @Status)";
-            DynamicParameters parameters = new(new { cityEvent.Title, cityEvent.Description, cityEvent.DateHourEvent, cityEvent.Local, cityEvent.Address, cityEvent.Price, cityEvent.Status });
+            DynamicParameters parameters = new(cityEvent);
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             return await conn.ExecuteAsync(query, parameters) == 1;
         }
 
-        public async Task<bool> EditarEventoAsync(long Id, CityEvent cityEvent)
+        public async Task<bool> EditarEventoAsync(long id, CityEvent cityEvent)
         {
             var query = @"UPDATE CityEvent SET Title = @Title,
                           Description = @Description,
                           DateHourEvent = @DateHourEvent,
                           Local = @Local,
                           Address = @Address,
-                          Price = @Price
-                          Status = @Status
-                          WHERE cityEvent.IdEvent = @IdEvent";
-            cityEvent.IdEvent = Id;
-            DynamicParameters parameters = new(cityEvent);
+                          Price = @Price,
+                          Status = @Status  
+                          WHERE IdEvent = @id";
+            #region Parameters
+            DynamicParameters parameters = new();
+            parameters.Add("Title", cityEvent.Title);
+            parameters.Add("Description", cityEvent.Description);
+            parameters.Add("DateHourEvent", cityEvent.DateHourEvent);
+            parameters.Add("Local", cityEvent.Local);
+            parameters.Add("Address", cityEvent.Address);
+            parameters.Add("Price", cityEvent.Price);
+            parameters.Add("Status", cityEvent.Status);
+            parameters.Add("id", id);
+            #endregion
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             return await conn.ExecuteAsync(query, parameters) == 1;
         }

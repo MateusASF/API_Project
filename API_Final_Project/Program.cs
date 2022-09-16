@@ -72,6 +72,7 @@ builder.Services.AddMvc(options => options.Filters.Add<GeneralExceptionFilter>()
 builder.Services.AddScoped<LogActionFilter_RegistroExistente_City>();
 builder.Services.AddScoped<LogActionFilter_RegistroExistente_Reservation>();
 builder.Services.AddScoped<RemoveEvent>();
+builder.Services.AddScoped<LogActionFilter_BlockReservation>();
 
 var app = builder.Build();
 

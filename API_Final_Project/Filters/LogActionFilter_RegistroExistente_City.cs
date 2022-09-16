@@ -1,4 +1,6 @@
 ﻿using APIEvents.Core.Interfaces;
+using APIEvents.Core.Models;
+using APIEvents.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 //LogActionFilter_PostExistente_
@@ -16,10 +18,15 @@ namespace APIEvents.Filters
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             long idEvent = (long)context.ActionArguments["id"];
-
+            var problem = new ProblemDetails();
             if (_cityEventService.ConsultarEventosidAsync(idEvent) == null)
             {
-                context.Result = new StatusCodeResult(StatusCodes.Status400BadRequest);
+                context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                problem.Status = 400;
+                problem.Title = "Evento Inexistente";
+                problem.Detail = "Este Evento não existe";
+                problem.Type = GetType().Name;
+                context.Result = new ObjectResult(problem);
             }
         }
 

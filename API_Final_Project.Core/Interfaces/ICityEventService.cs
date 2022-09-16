@@ -16,7 +16,7 @@ namespace APIEvents.Core.Interfaces
 
         Task<bool> CriarEventoAsync(CityEvent cityEvent);
 
-        Task<bool> EditarEventoAsync(long Id, CityEvent cityEvent);
+        Task<bool> EditarEventoAsync(long id, CityEvent cityEvent);
 
         Task<bool> ExcluirEventoAsync(long Id);
 

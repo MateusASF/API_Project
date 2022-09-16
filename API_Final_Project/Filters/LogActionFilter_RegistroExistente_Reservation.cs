@@ -1,4 +1,6 @@
-﻿using APIEvents.Core.Interfaces;
+﻿using APIEvents.Controllers;
+using APIEvents.Core.Interfaces;
+using APIEvents.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -17,10 +19,15 @@ namespace APIEvents.Filters
         {
 
             long idReservation = (long)context.ActionArguments["id"];
-
+            var problem = new ProblemDetails();
             if (_eventReservationService.ConsultarReservasIdAsync(idReservation) == null)
             {
-                context.Result = new StatusCodeResult(StatusCodes.Status400BadRequest);
+                context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                problem.Status = 400;
+                problem.Title = "Reserva Inexistente";
+                problem.Detail = "Esta Reserva não existe";
+                problem.Type = GetType().Name;
+                context.Result = new ObjectResult(problem);
             }
         }
 

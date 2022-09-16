@@ -36,9 +36,9 @@ namespace APIEvents.Core.Services
             return await _cityEventRepository.CriarEventoAsync(cityEvent);
         }
 
-        public async Task<bool> EditarEventoAsync(long Id, CityEvent cityEvent)
+        public async Task<bool> EditarEventoAsync(long id, CityEvent cityEvent)
         {
-            return await _cityEventRepository.EditarEventoAsync(Id, cityEvent);
+            return await _cityEventRepository.EditarEventoAsync(id, cityEvent);
         }
 
         public async Task<List<CityEvent>> ConsultarEventosPrecoDataAsync(decimal min, decimal max, DateTime Data)

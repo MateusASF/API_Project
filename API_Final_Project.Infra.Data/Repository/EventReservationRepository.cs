@@ -45,7 +45,10 @@ namespace APIEvents.Infra.Data.Repository
         {
             var query = "INSERT INTO EventReservation VALUES (@IdEvent, @PersonName, @Quantity)";
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-            DynamicParameters parameters = new(new { eventReservation.IdEvent, eventReservation.PersonName, eventReservation.Quantity });
+            DynamicParameters parameters = new(eventReservation);
+            //parameters.Add("IdEvent", eventReservation.IdEvent);
+            //parameters.Add("PersonName", eventReservation.PersonName);
+            //parameters.Add("Quantity", eventReservation.Quantity);
             return await conn.ExecuteAsync(query, parameters) == 1;
         }
 
