@@ -1,6 +1,4 @@
-﻿using APIEvents.Controllers;
-using APIEvents.Core.Interfaces;
-using APIEvents.Core.Models;
+﻿using APIEvents.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

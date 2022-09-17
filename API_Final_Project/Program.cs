@@ -3,12 +3,14 @@ using APIEvents.Core.Services;
 using APIEvents.Filters;
 using APIEvents.Infra.Data.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders(); // -> não tão usado
+builder.Logging.AddConsole();
 
 // Add services to the container.
 
@@ -71,7 +73,7 @@ builder.Services.AddMvc(options => options.Filters.Add<GeneralExceptionFilter>()
 
 builder.Services.AddScoped<LogActionFilter_RegistroExistente_City>();
 builder.Services.AddScoped<LogActionFilter_RegistroExistente_Reservation>();
-builder.Services.AddScoped<RemoveEvent>();
+builder.Services.AddScoped<LogActionFilter_RemoveEvent>();
 builder.Services.AddScoped<LogActionFilter_BlockReservation>();
 
 var app = builder.Build();

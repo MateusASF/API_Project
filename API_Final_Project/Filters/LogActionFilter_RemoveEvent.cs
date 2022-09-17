@@ -1,16 +1,15 @@
 ﻿using APIEvents.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Diagnostics.CodeAnalysis;
 
 namespace APIEvents.Filters
 {
-    public class RemoveEvent : ActionFilterAttribute
+    public class LogActionFilter_RemoveEvent : ActionFilterAttribute
     {
         readonly IEventReservationService _eventReservationService;
         readonly ICityEventService _cityEventService;
 
-        public RemoveEvent(IEventReservationService eventReservationService, ICityEventService cityEventService)
+        public LogActionFilter_RemoveEvent(IEventReservationService eventReservationService, ICityEventService cityEventService)
         {
             _eventReservationService = eventReservationService;
             _cityEventService = cityEventService;
@@ -18,9 +17,7 @@ namespace APIEvents.Filters
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-
             long idEvent = (long)context.ActionArguments["id"];
-
             if (_eventReservationService.RemoveEventAsync(idEvent).Result.Count > 0)
             {
                 _cityEventService.AlterStatusAsync(idEvent);

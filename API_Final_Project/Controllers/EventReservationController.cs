@@ -1,7 +1,6 @@
 ﻿using APIEvents.Core.Interfaces;
 using APIEvents.Core.Models;
 using APIEvents.Filters;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIEvents.Controllers

@@ -1,9 +1,7 @@
 using APIEvents.Core.Interfaces;
 using APIEvents.Core.Models;
 using APIEvents.Filters;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace APIEvents.Controllers
 {
@@ -109,7 +107,7 @@ namespace APIEvents.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(LogActionFilter_RegistroExistente_City))]
-        [ServiceFilter(typeof(RemoveEvent))]
+        [ServiceFilter(typeof(LogActionFilter_RemoveEvent))]
         //[Authorize(Roles = "admin")]
         public async Task <ActionResult<List<CityEvent>>> ExcluirEventoAsync(long Id)
         {

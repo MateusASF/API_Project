@@ -1,6 +1,4 @@
 ﻿using APIEvents.Core.Interfaces;
-using APIEvents.Core.Models;
-using APIEvents.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 //LogActionFilter_PostExistente_
