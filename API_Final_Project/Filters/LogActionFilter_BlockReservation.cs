@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace APIEvents.Filters
 {
-    public class LogActionFilter_BlockReservation : ActionFilterAttribute
+    public class LogActionFilter_BlockReservation : IAsyncActionFilter
     {
         readonly ICityEventService _cityEventService;
 
@@ -14,7 +14,7 @@ namespace APIEvents.Filters
             _cityEventService = clienteService;
         }
 
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var evento = context.ActionArguments["eventReservation"] as EventReservation;
             var list = _cityEventService.ConsultarEventosAsync().Result.ToList();
@@ -28,6 +28,7 @@ namespace APIEvents.Filters
                 problem.Type = GetType().Name;
                 context.Result = new ObjectResult(problem);
             }
+            await next();
         }
     }
 }

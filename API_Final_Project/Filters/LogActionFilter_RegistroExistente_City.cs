@@ -1,10 +1,10 @@
 ﻿using APIEvents.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-//LogActionFilter_PostExistente_
+
 namespace APIEvents.Filters
 {
-    public class LogActionFilter_RegistroExistente_City : ActionFilterAttribute
+    public class LogActionFilter_RegistroExistente_City : IAsyncActionFilter
     {
         readonly ICityEventService _cityEventService;
 
@@ -13,7 +13,7 @@ namespace APIEvents.Filters
             _cityEventService = clienteService;
         }
 
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             long idEvent = (long)context.ActionArguments["id"];
             var problem = new ProblemDetails();
@@ -26,6 +26,7 @@ namespace APIEvents.Filters
                 problem.Type = GetType().Name;
                 context.Result = new ObjectResult(problem);
             }
+            await next();
         }
 
     }

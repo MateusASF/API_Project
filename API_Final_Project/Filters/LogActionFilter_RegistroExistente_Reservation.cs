@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace APIEvents.Filters
 {
-    public class LogActionFilter_RegistroExistente_Reservation : ActionFilterAttribute
+    public class LogActionFilter_RegistroExistente_Reservation : IAsyncActionFilter
     {
         readonly IEventReservationService _eventReservationService;
 
@@ -13,7 +13,7 @@ namespace APIEvents.Filters
             _eventReservationService = eventReservationService;
         }
 
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
 
             long idReservation = (long)context.ActionArguments["id"];
@@ -27,6 +27,7 @@ namespace APIEvents.Filters
                 problem.Type = GetType().Name;
                 context.Result = new ObjectResult(problem);
             }
+            await next();
         }
 
     }

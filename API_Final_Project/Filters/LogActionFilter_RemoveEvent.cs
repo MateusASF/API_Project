@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace APIEvents.Filters
 {
-    public class LogActionFilter_RemoveEvent : ActionFilterAttribute
+    public class LogActionFilter_RemoveEvent : IAsyncActionFilter
     {
         readonly IEventReservationService _eventReservationService;
         readonly ICityEventService _cityEventService;
@@ -15,12 +15,12 @@ namespace APIEvents.Filters
             _cityEventService = cityEventService;
         }
 
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             long idEvent = (long)context.ActionArguments["id"];
             if (_eventReservationService.RemoveEventAsync(idEvent).Result.Count > 0)
             {
-                _cityEventService.AlterStatusAsync(idEvent);
+                await _cityEventService.AlterStatusAsync(idEvent);
                 var result = new ObjectResult(new { erro = "O evento possui reserva e foi inativado" })
                 {
                     StatusCode = 204
@@ -31,6 +31,7 @@ namespace APIEvents.Filters
             {
                 return;
             }
+            await next();
         }
     }
 }
